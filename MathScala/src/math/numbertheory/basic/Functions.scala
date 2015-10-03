@@ -3,6 +3,7 @@ package lib.numbertheory.datatype.Surd
 
 
 import scala.collection.immutable.IndexedSeq
+
 import math.numbertheory.basic.PrimalityAndFactorization
 import math.numbertheory.datastructures.OrderedPair
 
