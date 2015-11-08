@@ -25,8 +25,7 @@ object Functions {
   def multiplyConsecutiveInts(lower: Int, higher: Int):Int =  
   {
     var result = 1
-    for(i <- lower to higher) 
-      result *= i
+    (lower to higher).foreach(result *= _)
     result
   }  
   
