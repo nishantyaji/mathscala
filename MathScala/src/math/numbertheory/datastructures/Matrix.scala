@@ -1,34 +1,55 @@
 package math.numbertheory.datastructures
 
-class MatrixInt(n : Int) {
-	private var elements = Array.ofDim[Int](n, n)
+import scala.collection.mutable.MutableList
 
-			def put(rowNum: Int, colNum: Int, value: Int):Unit = 
-			elements(rowNum)(colNum) = value
+class Matrix[T](n: Int, defaultValue : T){
+  
+  /* usage
+  def main(args: Array[String]): Unit = {
+    var m = new Matrix[Int](4, 0)
+    m.init()
+    for(i <- 0 to 3)
+      for(j <- 0 to 3)
+        m.put(i, j, 4*i + j)
+    println(m)
+  }
+  */
+  
+	private var elements = MutableList[MutableList[T]]()
+
+	def init(): Unit = 
+	{
+		  elements = MutableList[MutableList[T]]()
+				for(i <- 1 to n)
+				{
+					var tempList = MutableList[T]()
+					for(j <- 1 to n) {tempList += defaultValue}
+				  elements += tempList
+				}
+
+	}
+
+	def put(rowNum: Int, colNum: Int, value: T): Unit = elements(rowNum)(colNum) = value
 
 			def removeRowAndCol(rowAndColNum: Int): Unit =
 		{
-		val f1 = (a: Array[Int], n: Int) => a.view.take(n) ++ a.view.drop(n+1)
-				val f2 = (a: Array[Array[Int]], n: Int) => a.view.take(n) ++ a.view.drop(n+1)
-				/*
-				elements = f2(this.elements, rowAndColNum)
-				elements = elements.foreach( _ = f1(_, rowAndColNum))
-				 */
+		var tempelements = MutableList[MutableList[T]]()
+				for(row <- elements)
+					tempelements += row.drop(rowAndColNum - 1) ++ row.dropRight(row.size - rowAndColNum)
+					elements = tempelements
 		}
 
-	override def toString(): String = 
+	override def toString(): String =
 		{
 			var str = "["
-					elements.foreach(x => {
-						str+= "\n\t["
-								x.foreach(y => str += "%9s" format y )
-								str+= "%9s" format "]"
-					}
-							);
-			str += "\n]" 
+			            elements.foreach(x => {
+			            	str += "\n\t["
+			            			x.foreach(y => str += "%9s" format y)
+			            			str += "%9s" format "]"
+			            });
+			str += "\n]"
 					str
 		}
-
 
 }
 
